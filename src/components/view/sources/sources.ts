@@ -1,6 +1,11 @@
 import './sources.css';
 
-interface Sourse {
+interface ISourse {
+  status: string,
+  sources: ISourseElement[],
+}
+
+interface ISourseElement {
   id: string,
   name: string,
   description: string,
@@ -11,7 +16,7 @@ interface Sourse {
 }
 
 class Sources {
-  draw(data: Sourse[]) {
+  draw(data: ISourseElement[]) {
     const fragment: DocumentFragment = document.createDocumentFragment();
     const sourceItemTemp = document.querySelector('#sourceItemTemp')  as HTMLTemplateElement;
 
@@ -30,4 +35,4 @@ class Sources {
   }
 }
 
-export default Sources;
+export { ISourse, Sources };

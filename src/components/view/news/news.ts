@@ -1,6 +1,12 @@
 import './news.css';
 
-interface Articles {
+interface INews {
+  articles: IArticles[],
+  status: string,
+  totalResults: number,
+}
+
+interface IArticles {
   source: {
     id: string | null,
     name: string,
@@ -15,11 +21,10 @@ interface Articles {
 }
 
 class News {
-  draw(data: Articles[]) {
-    const news: Articles[] = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
+  draw(data: IArticles[]) {
+    const news: IArticles[] = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
     const fragment: DocumentFragment = document.createDocumentFragment() as DocumentFragment;
     const newsItemTemp = document.querySelector('#newsItemTemp') as HTMLTemplateElement;
-    
 
     if(newsItemTemp) {
     news.forEach((item, idx) => {
@@ -46,11 +51,10 @@ class News {
         
       });
     }
-      
 
     (document.querySelector('.news') as HTMLInputElement).innerHTML = '';
     (document.querySelector('.news') as HTMLInputElement).appendChild(fragment);
   }
 }
 
-export default News;
+export { INews, News };
