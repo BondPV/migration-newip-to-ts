@@ -3,7 +3,7 @@ import AppLoader from './appLoader';
 import { INews } from '../view/news/news';
 import { ISourse } from '../view/sources/sources';
 
-type CallBackType<T> = (data?: T) => void;
+type CallBackType<T> = (data: T) => void;
 
 class AppController extends AppLoader {
   getSources(callback: CallBackType<ISourse>) {

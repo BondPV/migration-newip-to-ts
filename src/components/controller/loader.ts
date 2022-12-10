@@ -2,6 +2,8 @@ interface IOptions {
   [source: string]:string
 }
 
+type CallBackType<T> = (data: T) => void;
+
 class Loader {
   baseLink: string;
   options: IOptions;
@@ -11,9 +13,9 @@ class Loader {
     this.options = options;
   }
 
-  getResp(
+  getResp<T>(
     { endpoint = '', options = {} },
-    callback = () => {
+    callback: CallBackType<T> = () => {
       console.error('No callback for GET response');
     }
   ) {
@@ -41,12 +43,12 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  load<T>(method: string, endpoint: string, callback: (data: T) => void, options = {}) {
+  load<T>(method: string, endpoint: string, callback: CallBackType<T>, options = {}) {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)
       .then((res) => res.json())
-      .then((data) => callback(data))
-      .catch((err) => console.error(err));
+      .then((data: T) => callback(data))
+      .catch((err: Error) => console.error(err));
   }
 }
 
