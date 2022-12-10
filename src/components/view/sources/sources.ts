@@ -18,7 +18,7 @@ interface ISourseElement {
 class Sources {
   draw(data: ISourseElement[]) {
     const fragment: DocumentFragment = document.createDocumentFragment();
-    const sourceItemTemp = document.querySelector('#sourceItemTemp')  as HTMLTemplateElement;
+    const sourceItemTemp = document.querySelector('#sourceItemTemp') as HTMLTemplateElement;
 
   if(sourceItemTemp) {
     data.forEach((item) => {
