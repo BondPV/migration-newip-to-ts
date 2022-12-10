@@ -1,5 +1,5 @@
 interface IOptions {
-  [source: string]:string
+  [source: string]: string;
 }
 
 type CallBackType<T> = (data: T) => void;
@@ -32,7 +32,7 @@ class Loader {
     return res;
   }
 
-  makeUrl(options: IOptions, endpoint: string):string {
+  makeUrl(options: IOptions, endpoint: string): string {
     const urlOptions: IOptions = { ...this.options, ...options };
     let url = `${this.baseLink}${endpoint}?`;
 

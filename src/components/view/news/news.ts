@@ -1,16 +1,16 @@
 import './news.css';
 
 interface INews {
-  articles: IArticles[],
-  status: string,
-  totalResults: number,
+  articles: IArticles[];
+  status: string;
+  totalResults: number;
 }
 
 interface IArticles {
   source: {
-    id: string | null,
-    name: string,
-    }
+    id: string | null;
+    name: string;
+  };
   author: string;
   title: string;
   description: string;
@@ -26,12 +26,10 @@ class News {
     const fragment: DocumentFragment = document.createDocumentFragment() as DocumentFragment;
     const newsItemTemp = document.querySelector('#newsItemTemp') as HTMLTemplateElement;
 
-    if(newsItemTemp) {
-    news.forEach((item, idx) => {
-      const newsClone = newsItemTemp.content.cloneNode(true) as Element;
-      
+    if (newsItemTemp) {
+      news.forEach((item, idx) => {
+        const newsClone = newsItemTemp.content.cloneNode(true) as Element;
         if (idx % 2) newsClone.querySelector('.news__item')?.classList.add('alt');
-  
         (newsClone.querySelector('.news__meta-photo') as HTMLElement).style.backgroundImage = `url(${
           item.urlToImage || 'img/news_placeholder.jpg'
         })`;
@@ -41,14 +39,11 @@ class News {
           .split('-')
           .reverse()
           .join('-');
-  
         (newsClone.querySelector('.news__description-title') as HTMLElement).textContent = item.title;
         (newsClone.querySelector('.news__description-source') as HTMLElement).textContent = item.source.name;
         (newsClone.querySelector('.news__description-content') as HTMLElement).textContent = item.description;
         (newsClone.querySelector('.news__read-more a') as HTMLElement).setAttribute('href', item.url);
-        
         fragment.append(newsClone);
-        
       });
     }
 
