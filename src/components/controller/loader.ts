@@ -4,16 +4,18 @@ interface IOptions {
 
 type CallBackType<T> = (data: T) => void;
 
+type Metod = 'GET' | 'POST';
+
 class Loader {
-  baseLink: string;
-  options: IOptions;
+  private baseLink: string;
+  private options: IOptions;
 
   constructor(baseLink: string, options: IOptions) {
     this.baseLink = baseLink;
     this.options = options;
   }
 
-  getResp<T>(
+  protected getResp<T>(
     { endpoint = '', options = {} },
     callback: CallBackType<T> = () => {
       console.error('No callback for GET response');
@@ -22,7 +24,7 @@ class Loader {
     this.load('GET', endpoint, callback, options);
   }
 
-  errorHandler(res: Response) {
+  protected errorHandler(res: Response) {
     if (!res.ok) {
       if (res.status === 401 || res.status === 404)
         console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
@@ -32,7 +34,7 @@ class Loader {
     return res;
   }
 
-  makeUrl(options: IOptions, endpoint: string): string {
+  protected makeUrl(options: IOptions, endpoint: string): string {
     const urlOptions: IOptions = { ...this.options, ...options };
     let url = `${this.baseLink}${endpoint}?`;
 
@@ -43,7 +45,7 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  load<T>(method: string, endpoint: string, callback: CallBackType<T>, options = {}) {
+  protected load<T>(method: Metod, endpoint: string, callback: CallBackType<T>, options = {}) {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)
       .then((res) => res.json())

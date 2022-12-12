@@ -16,7 +16,7 @@ interface ISourseElement {
 }
 
 class Sources {
-  draw(data: ISourseElement[]) {
+  draw(data: readonly ISourseElement[]) {
     const fragment: DocumentFragment = document.createDocumentFragment();
     const sourceItemTemp = document.querySelector('#sourceItemTemp') as HTMLTemplateElement;
 
