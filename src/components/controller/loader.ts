@@ -1,10 +1,6 @@
-interface IOptions {
-  [source: string]: string;
-}
-
-type CallBackType<T> = (data: T) => void;
-
-type Metod = 'GET' | 'POST';
+import { Endpoint, HttpMetods, HttpStatusCode } from '../types/enum';
+import { IOptions } from '../types/interfaces';
+import { CallBackType } from '../types/types';
 
 class Loader {
   private baseLink: string;
@@ -16,17 +12,17 @@ class Loader {
   }
 
   protected getResp<T>(
-    { endpoint = '', options = {} },
+    { endpoint = Endpoint.Not, options = {} },
     callback: CallBackType<T> = () => {
       console.error('No callback for GET response');
     }
   ) {
-    this.load('GET', endpoint, callback, options);
+    this.load(HttpMetods.GET, endpoint, callback, options);
   }
 
-  protected errorHandler(res: Response) {
+  private errorHandler(res: Response) {
     if (!res.ok) {
-      if (res.status === 401 || res.status === 404)
+      if (res.status === HttpStatusCode.Unauthorized || res.status === HttpStatusCode.NotFound)
         console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
       throw Error(res.statusText);
     }
@@ -34,7 +30,7 @@ class Loader {
     return res;
   }
 
-  protected makeUrl(options: IOptions, endpoint: string): string {
+  private makeUrl(options: IOptions, endpoint: string): string {
     const urlOptions: IOptions = { ...this.options, ...options };
     let url = `${this.baseLink}${endpoint}?`;
 
@@ -45,7 +41,7 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  protected load<T>(method: Metod, endpoint: string, callback: CallBackType<T>, options = {}) {
+  private load<T>(method: HttpMetods, endpoint: Endpoint, callback: CallBackType<T>, options = {}) {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)
       .then((res) => res.json())

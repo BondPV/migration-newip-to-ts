@@ -1,21 +1,19 @@
 import AppLoader from './appLoader';
-
-import { INews } from '../view/news/news';
-import { ISourse } from '../view/sources/sources';
-
-type CallBackType<T> = (data: T) => void;
+import { ISourse, INews } from '../../components/types/interfaces';
+import { CallBackType } from '../types/types';
+import { Endpoint } from '../types/enum';
 
 class AppController extends AppLoader {
-  getSources(callback: CallBackType<ISourse>) {
-    super.getResp(
+  public getSources(callback: CallBackType<ISourse>) {
+    this.getResp(
       {
-        endpoint: 'sources',
+        endpoint: Endpoint.Sources,
       },
       callback
     );
   }
 
-  getNews(e: Event, callback: CallBackType<INews>) {
+  public getNews(e: Event, callback: CallBackType<INews>) {
     let target = e.target as HTMLElement;
     const newsContainer = e.currentTarget as HTMLElement;
 
@@ -24,9 +22,9 @@ class AppController extends AppLoader {
         const sourceId = target.getAttribute('data-source-id');
         if (sourceId && newsContainer.getAttribute('data-source') !== sourceId) {
           newsContainer.setAttribute('data-source', sourceId);
-          super.getResp(
+          this.getResp(
             {
-              endpoint: 'everything',
+              endpoint: Endpoint.Everything,
               options: {
                 sources: sourceId,
               },

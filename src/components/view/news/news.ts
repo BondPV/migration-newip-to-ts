@@ -1,28 +1,10 @@
 import './news.css';
-
-interface INews {
-  articles: IArticles[];
-  status: string;
-  totalResults: number;
-}
-
-interface IArticles {
-  source: {
-    id: string | null;
-    name: string;
-  };
-  author: string;
-  title: string;
-  description: string;
-  url: string;
-  urlToImage: string;
-  publishedAt: string;
-  content: string;
-}
+import { IArticles } from '../../types/interfaces';
+import { newsCount } from '../../constants/Constants';
 
 class News {
-  draw(data: IArticles[]) {
-    const news: IArticles[] = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
+  public draw(data: IArticles[]) {
+    const news: IArticles[] = data.length >= newsCount ? data.filter((_item, idx) => idx < newsCount) : data;
 
     const fragment = document.createDocumentFragment() as DocumentFragment;
     const newsItemTemp = document.querySelector('#newsItemTemp') as HTMLTemplateElement;
@@ -37,7 +19,7 @@ class News {
         })`;
         (newsClone.querySelector('.news__meta-author') as HTMLElement).textContent = item.author || item.source.name;
         (newsClone.querySelector('.news__meta-date') as HTMLElement).textContent = item.publishedAt
-          .slice(0, 10)
+          .slice(0, newsCount)
           .split('-')
           .reverse()
           .join('-');
@@ -56,4 +38,4 @@ class News {
   }
 }
 
-export { INews, News };
+export default News;
